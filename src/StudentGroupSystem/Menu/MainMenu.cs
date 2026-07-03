@@ -190,15 +190,17 @@ namespace StudentGroupSystem.Menu
                         _logger.Log("Executing TestExceptionHandling()");
                         _group.TestExceptionHandling();
                         break;
-                    case 53: SubscribeToStudentAdded(); break;
-                    case 54: FilterStudentsPredicate(); break;
-                    case 55: ActionOperation(); break;
-                    case 56: GenerateReportFunc(); break;
-                    case 57: DemoEvents(); break;
-                    case 58: SortStudentsLambda(); break;
-                    case 59: CallbackTest(); break;
-                    case 60: ShowEventHistory(); break;
-
+                    case "53": SubscribeToStudentAdded(); break;
+                    case "54": FilterStudentsPredicate(); break;
+                    case "55": ActionOperation(); break;
+                    case "56": GenerateReportFunc(); break;
+                    case "57": DemoEvents(); break;
+                    case "58": SortStudentsLambda(); break;
+                    case "59": CallbackTest(); break;
+                    case "60": ShowEventHistory(); break;
+                    case "61":
+                        TestLowGradeNotification();
+                        break;
                     case "0":
                         _logger.Log("Exiting program");
                         return;
@@ -479,5 +481,12 @@ namespace StudentGroupSystem.Menu
             _fileManager.CleanOldBackups(days);
             Console.WriteLine("Old backups cleaned.");
         }
+        private void TestLowGradeNotification()
+        {
+            var s = new Student("Test Student");
+            s.AddGrade(40);
+            _group.AddStudent(s);
+        }
+
     }
 }
