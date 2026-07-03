@@ -9,13 +9,9 @@ namespace StudentGroupSystem.Models
         public string GroupName { get; set; }
         public Point[] LabPlaces { get; private set; } = Array.Empty<Point>();
         public GradeRecord[] GradeHistory { get; private set; } = Array.Empty<GradeRecord>();
-<<<<<<< HEAD
         private NotificationService _notification = new NotificationService();
-=======
         public event EventHandler<StudentEventArgs> StudentAdded;
         public event EventHandler<StudentEventArgs> StudentRemoved;
->>>>>>> feature/studentgroup-events
-
         public List<UniversityMember> Members { get; set; }
 
         public StudentGroup(int id, string name)
@@ -35,9 +31,13 @@ namespace StudentGroupSystem.Models
         public void AddStudent(Student s)
         {
             Students.Add(s);
-<<<<<<< HEAD
             _notification.CheckStudent(s);
-=======
+            StudentAdded?.Invoke(this, new StudentEventArgs(s));
+        }
+
+        public void AddStudent(Student s)
+        {
+            Students.Add(s);
             StudentAdded?.Invoke(this, new StudentEventArgs(s));
         }
 
@@ -45,7 +45,6 @@ namespace StudentGroupSystem.Models
         {
             Students.Remove(s);
             StudentRemoved?.Invoke(this, new StudentEventArgs(s));
->>>>>>> feature/studentgroup-events
         }
         public void AddGrade(int studentId, GradeRecord record)
         {
@@ -269,6 +268,10 @@ namespace StudentGroupSystem.Models
         {
             foreach (var s in Students.Where(predicate))
                 action(s);
+        
+        public List<Student> FilterStudents(Predicate<Student> predicate)
+        {
+            return Students.Where(s => predicate(s)).ToList();
         }
 
 

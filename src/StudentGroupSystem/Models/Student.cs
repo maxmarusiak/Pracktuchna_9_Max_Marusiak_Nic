@@ -7,10 +7,7 @@ namespace StudentGroupSystem.Models
         public string Name { get; set; }
         public GradePoint AverageGrade { get; set; }
         public event EventHandler AverageGradeChanged;
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/studentgroup-events
         public Student(int id, string name, GradePoint grade)
             : base(id)
         {
