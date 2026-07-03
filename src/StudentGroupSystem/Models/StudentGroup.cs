@@ -9,7 +9,8 @@ namespace StudentGroupSystem.Models
         public string GroupName { get; set; }
         public Point[] LabPlaces { get; private set; } = Array.Empty<Point>();
         public GradeRecord[] GradeHistory { get; private set; } = Array.Empty<GradeRecord>();
-
+        public event EventHandler<StudentEventArgs> StudentAdded;
+        public event EventHandler<StudentEventArgs> StudentRemoved;
 
         public List<UniversityMember> Members { get; set; }
 
@@ -20,6 +21,17 @@ namespace StudentGroupSystem.Models
             Members = new List<UniversityMember>();
         }
 
+        public void AddStudent(Student s)
+        {
+            Students.Add(s);
+            StudentAdded?.Invoke(this, new StudentEventArgs(s));
+        }
+
+        public void RemoveStudent(Student s)
+        {
+            Students.Remove(s);
+            StudentRemoved?.Invoke(this, new StudentEventArgs(s));
+        }
         public void AddGrade(int studentId, GradeRecord record)
         {
             GradeHistory = GradeHistory.Append(record).ToArray();
@@ -237,6 +249,15 @@ namespace StudentGroupSystem.Models
             {
                 Console.WriteLine($"General exception: {ex.Message}");
             }
+        }
+        public void PerformOperationOnStudents(Func<Student, bool> predicate, Action<Student> action)
+        {
+            foreach (var s in Students.Where(predicate))
+                action(s);
+        
+        public List<Student> FilterStudents(Predicate<Student> predicate)
+        {
+            return Students.Where(s => predicate(s)).ToList();
         }
 
 
