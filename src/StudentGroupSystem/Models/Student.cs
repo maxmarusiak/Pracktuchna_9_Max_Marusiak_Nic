@@ -28,6 +28,12 @@ namespace StudentGroupSystem.Models
             Shapes.Add(shape);
         }
 
+        public void AddGrade(double grade)
+        {
+            Grades.Add(grade);
+            AverageGradeChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public void RemoveShape(Shape shape)
         {
             Shapes.Remove(shape);

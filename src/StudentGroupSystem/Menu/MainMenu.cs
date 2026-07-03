@@ -201,6 +201,7 @@ namespace StudentGroupSystem.Menu
                     case "61":
                         TestLowGradeNotification();
                         break;
+
                     case "0":
                         _logger.Log("Exiting program");
                         return;

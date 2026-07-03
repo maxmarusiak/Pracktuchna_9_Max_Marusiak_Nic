@@ -9,9 +9,9 @@ namespace StudentGroupSystem.Models
         public string GroupName { get; set; }
         public Point[] LabPlaces { get; private set; } = Array.Empty<Point>();
         public GradeRecord[] GradeHistory { get; private set; } = Array.Empty<GradeRecord>();
+        private NotificationService _notification = new NotificationService();
         public event EventHandler<StudentEventArgs> StudentAdded;
         public event EventHandler<StudentEventArgs> StudentRemoved;
-
         public List<UniversityMember> Members { get; set; }
 
         public StudentGroup(int id, string name)
@@ -19,6 +19,20 @@ namespace StudentGroupSystem.Models
         {
             GroupName = name;
             Members = new List<UniversityMember>();
+        }
+        public StudentGroup()
+        {
+            _notification.LowGradeDetected += student =>
+            {
+                Console.WriteLine($"⚠️ Увага! У студента {student.Name} низький середній бал!");
+            };
+        }
+
+        public void AddStudent(Student s)
+        {
+            Students.Add(s);
+            _notification.CheckStudent(s);
+            StudentAdded?.Invoke(this, new StudentEventArgs(s));
         }
 
         public void AddStudent(Student s)
