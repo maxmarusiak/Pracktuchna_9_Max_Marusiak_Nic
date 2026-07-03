@@ -6,7 +6,7 @@ namespace StudentGroupSystem.Models
     {
         public string Name { get; set; }
         public GradePoint AverageGrade { get; set; }
-
+        public event EventHandler AverageGradeChanged;
         public Student(int id, string name, GradePoint grade)
             : base(id)
         {
@@ -19,6 +19,12 @@ namespace StudentGroupSystem.Models
         public void AddShape(Shape shape)
         {
             Shapes.Add(shape);
+        }
+
+        public void AddGrade(double grade)
+        {
+            Grades.Add(grade);
+            AverageGradeChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void RemoveShape(Shape shape)

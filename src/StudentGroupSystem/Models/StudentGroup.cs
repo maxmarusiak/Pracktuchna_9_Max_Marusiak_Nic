@@ -9,7 +9,7 @@ namespace StudentGroupSystem.Models
         public string GroupName { get; set; }
         public Point[] LabPlaces { get; private set; } = Array.Empty<Point>();
         public GradeRecord[] GradeHistory { get; private set; } = Array.Empty<GradeRecord>();
-
+        private NotificationService _notification = new NotificationService();
 
         public List<UniversityMember> Members { get; set; }
 
@@ -19,7 +19,19 @@ namespace StudentGroupSystem.Models
             GroupName = name;
             Members = new List<UniversityMember>();
         }
+        public StudentGroup()
+        {
+            _notification.LowGradeDetected += student =>
+            {
+                Console.WriteLine($"⚠️ Увага! У студента {student.Name} низький середній бал!");
+            };
+        }
 
+        public void AddStudent(Student s)
+        {
+            Students.Add(s);
+            _notification.CheckStudent(s);
+        }
         public void AddGrade(int studentId, GradeRecord record)
         {
             GradeHistory = GradeHistory.Append(record).ToArray();
