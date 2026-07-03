@@ -9,9 +9,15 @@ namespace StudentGroupSystem.Models
         public string GroupName { get; set; }
         public Point[] LabPlaces { get; private set; } = Array.Empty<Point>();
         public GradeRecord[] GradeHistory { get; private set; } = Array.Empty<GradeRecord>();
+<<<<<<< HEAD
         private NotificationService _notification = new NotificationService();
         public event EventHandler<StudentEventArgs> StudentAdded;
         public event EventHandler<StudentEventArgs> StudentRemoved;
+=======
+        public event EventHandler<StudentEventArgs> StudentAdded;
+        public event EventHandler<StudentEventArgs> StudentRemoved;
+        private EventManager _events = new EventManager();
+>>>>>>> refactor/delegates-cleanup
         public List<UniversityMember> Members { get; set; }
 
         public StudentGroup(int id, string name)
@@ -31,6 +37,7 @@ namespace StudentGroupSystem.Models
         public void AddStudent(Student s)
         {
             Students.Add(s);
+<<<<<<< HEAD
             _notification.CheckStudent(s);
             StudentAdded?.Invoke(this, new StudentEventArgs(s));
         }
@@ -39,6 +46,9 @@ namespace StudentGroupSystem.Models
         {
             Students.Add(s);
             StudentAdded?.Invoke(this, new StudentEventArgs(s));
+=======
+            _events.RaiseStudentAdded(s);
+>>>>>>> refactor/delegates-cleanup
         }
 
         public void RemoveStudent(Student s)
