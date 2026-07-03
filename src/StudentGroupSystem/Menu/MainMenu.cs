@@ -190,6 +190,9 @@ namespace StudentGroupSystem.Menu
                         _logger.Log("Executing TestExceptionHandling()");
                         _group.TestExceptionHandling();
                         break;
+                    case "61":
+                        TestLowGradeNotification();
+                        break;
 
                     case "0":
                         _logger.Log("Exiting program");
@@ -471,5 +474,12 @@ namespace StudentGroupSystem.Menu
             _fileManager.CleanOldBackups(days);
             Console.WriteLine("Old backups cleaned.");
         }
+        private void TestLowGradeNotification()
+        {
+            var s = new Student("Test Student");
+            s.AddGrade(40);
+            _group.AddStudent(s);
+        }
+
     }
 }
