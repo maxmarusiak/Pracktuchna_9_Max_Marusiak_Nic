@@ -242,6 +242,10 @@ namespace StudentGroupSystem.Models
         {
             foreach (var s in Students.Where(predicate))
                 action(s);
+        
+        public List<Student> FilterStudents(Predicate<Student> predicate)
+        {
+            return Students.Where(s => predicate(s)).ToList();
         }
 
 
