@@ -12,6 +12,7 @@ namespace StudentGroupSystem.Models
         public event EventHandler<StudentEventArgs> StudentAdded;
         public event EventHandler<StudentEventArgs> StudentRemoved;
         private EventManager _events = new EventManager();
+        private NotificationService _notification = new NotificationService();
         public List<UniversityMember> Members { get; set; }
 
         public StudentGroup(int id, string name)
@@ -31,7 +32,14 @@ namespace StudentGroupSystem.Models
         public void AddStudent(Student s)
         {
             Students.Add(s);
-            _events.RaiseStudentAdded(s);
+            _notification.CheckStudent(s);
+            StudentAdded?.Invoke(this, new StudentEventArgs(s));
+        }
+
+        public void AddStudent(Student s)
+        {
+            Students.Add(s);
+            StudentAdded?.Invoke(this, new StudentEventArgs(s));
         }
 
         public void RemoveStudent(Student s)
@@ -261,6 +269,10 @@ namespace StudentGroupSystem.Models
         {
             foreach (var s in Students.Where(predicate))
                 action(s);
+        
+        public List<Student> FilterStudents(Predicate<Student> predicate)
+        {
+            return Students.Where(s => predicate(s)).ToList();
         }
 
 
