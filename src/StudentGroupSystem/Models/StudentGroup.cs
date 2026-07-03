@@ -238,6 +238,11 @@ namespace StudentGroupSystem.Models
                 Console.WriteLine($"General exception: {ex.Message}");
             }
         }
+        
+        public List<Student> FilterStudents(Predicate<Student> predicate)
+        {
+            return Students.Where(s => predicate(s)).ToList();
+        }
 
 
     }
