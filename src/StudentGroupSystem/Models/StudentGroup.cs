@@ -9,7 +9,12 @@ namespace StudentGroupSystem.Models
         public string GroupName { get; set; }
         public Point[] LabPlaces { get; private set; } = Array.Empty<Point>();
         public GradeRecord[] GradeHistory { get; private set; } = Array.Empty<GradeRecord>();
+<<<<<<< HEAD
         private NotificationService _notification = new NotificationService();
+=======
+        public event EventHandler<StudentEventArgs> StudentAdded;
+        public event EventHandler<StudentEventArgs> StudentRemoved;
+>>>>>>> feature/studentgroup-events
 
         public List<UniversityMember> Members { get; set; }
 
@@ -30,7 +35,17 @@ namespace StudentGroupSystem.Models
         public void AddStudent(Student s)
         {
             Students.Add(s);
+<<<<<<< HEAD
             _notification.CheckStudent(s);
+=======
+            StudentAdded?.Invoke(this, new StudentEventArgs(s));
+        }
+
+        public void RemoveStudent(Student s)
+        {
+            Students.Remove(s);
+            StudentRemoved?.Invoke(this, new StudentEventArgs(s));
+>>>>>>> feature/studentgroup-events
         }
         public void AddGrade(int studentId, GradeRecord record)
         {
